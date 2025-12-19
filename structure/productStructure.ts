@@ -23,28 +23,28 @@ export default defineStructure<ListItemBuilder>((S) =>
                 .schemaType('product')
                 .id(id)
                 .child(S.document().schemaType('product').documentId(id)),
-              // Product variants
-              S.listItem()
-                .title('Variants')
-                .schemaType('productVariant')
-                .child(
-                  S.documentList()
-                    .title('Variants')
-                    .schemaType('productVariant')
-                    .filter(
-                      `
-                      _type == "productVariant"
-                      && store.productId == $productId
-                    `
-                    )
-                    .params({
-                      productId: Number(id.replace('shopifyProduct-', '')),
-                    })
-                    .canHandleIntent(
-                      (intentName, params) =>
-                        intentName === 'edit' && params.type === 'productVariant'
-                    )
-                ),
+              // 注释掉 Product variants 部分，因为 productVariant schema 已被禁用
+              // S.listItem()  
+              //   .title('Variants')  
+              //   .schemaType('productVariant')  
+              //   .child(  
+              //     S.documentList()  
+              //       .title('Variants')  
+              //       .schemaType('productVariant')  
+              //       .filter(  
+              //         `  
+              //         _type == "productVariant"  
+              //         && store.productId == $productId  
+              //       `  
+              //       )  
+              //       .params({  
+              //         productId: Number(id.replace('shopifyProduct-', '')),  
+              //       })  
+              //       .canHandleIntent(  
+              //         (intentName, params) =>  
+              //           intentName === 'edit' && params.type === 'productVariant'  
+              //       )  
+              //   ),  
             ])
         )
     )

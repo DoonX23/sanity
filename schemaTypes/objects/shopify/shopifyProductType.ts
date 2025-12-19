@@ -21,14 +21,15 @@ export const shopifyProductType = defineField({
         columns: 2,
       },
     },
-    {
-      name: 'variants',
-      title: 'Variants',
-      options: {
-        collapsed: true,
-        collapsible: true,
-      },
-    },
+    // 注释掉 variants fieldset，因为我们要禁用 variants 字段
+    // {
+    //   name: 'variants',
+    //   title: 'Variants',
+    //   options: {
+    //     collapsed: true,
+    //     collapsible: true,
+    //   },
+    // },
   ],
   fields: [
     defineField({
@@ -115,18 +116,19 @@ export const shopifyProductType = defineField({
       of: [{type: 'option'},
       ],
     }),
-    defineField({
-      fieldset: 'variants',
-      name: 'variants',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          title: 'Variant',
-          type: 'reference',
-          weak: true,
-          to: [{type: 'productVariant'}],
-        }),
-      ],
-    }),
+    // 注释掉 variants 字段，因为它引用了 productVariant 类型
+    // defineField({
+    //   fieldset: 'variants',
+    //   name: 'variants',
+    //   type: 'array',
+    //   of: [
+    //     defineArrayMember({
+    //       title: 'Variant',
+    //       type: 'reference',
+    //       weak: true,
+    //       to: [{type: 'productVariant'}],
+    //     }),
+    //   ],
+    // }),
   ],
 })
