@@ -97,8 +97,14 @@ import {colorThemeType} from './documents/colorTheme'
 import {pageType} from './documents/page'
 import {productType} from './documents/product'
 // import {productVariantType} from './documents/productVariant'
+// 添加 article 的导入
+import {articleType} from './documents/article'
+import {pagebuilderTypes} from './objects/pagebuilder'
 
-const documents = [collectionType, colorThemeType, pageType, productType]
+const documents = [collectionType, colorThemeType, pageType, productType, articleType,
+  // pagebuilder 的所有 Section 类型（必须注册，否则 Sanity 无法识别）
+  ...pagebuilderTypes,
+]
 
 import {homeType} from './singletons/homeType'
 import {settingsType} from './singletons/settingsType'

@@ -1,70 +1,38 @@
-import {DocumentIcon} from '@sanity/icons'
-import {defineField} from 'sanity'
+// schemaTypes/documents/page.ts
 
-import {validateSlug} from '../../utils/validateSlug'
-import { GROUPS } from '../../constants'
+import {defineField, defineType} from 'sanity'
+import {pagebuilderOf} from '../objects/pagebuilder'
 
-export const pageType = defineField({
+export const pageType = defineType({
   name: 'page',
   title: 'Page',
   type: 'document',
-  icon: DocumentIcon,
-  groups: GROUPS,
   fields: [
     defineField({
       name: 'title',
-      group: 'editorial',
+      title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
-      group: 'editorial',
       type: 'slug',
       options: {source: 'title'},
-      validation: validateSlug,
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'colorTheme',
-      type: 'reference',
-      to: [{type: 'colorTheme'}],
-      group: 'theme',
+      name: 'pagebuilder',
+      title: 'Page Builder',
+      type: 'array',
+      description: '使用不同的内容块构建页面',
+      of: pagebuilderOf,
     }),
-    defineField({
-      name: 'showHero',
-      type: 'boolean',
-      description: 'If disabled, page title will be displayed instead',
-      initialValue: false,
-      group: 'editorial',
-    }),
-    defineField({
-      name: 'hero',
-      type: 'hero',
-      hidden: ({document}) => !document?.showHero,
-      group: 'editorial',
-    }),
-    defineField({
-      name: 'body',
-      type: 'portableText',
-      group: 'editorial',
-    }),
-    defineField({
-      name: 'seo',
-      title: 'SEO',
-      type: 'seo',
-      group: 'seo',
-    }),
+    defineField({name: 'seo', title: 'SEO', type: 'seo'}),
   ],
   preview: {
-    select: {
-      seoImage: 'seo.image',
-      title: 'title',
-    },
-    prepare({seoImage, title}) {
-      return {
-        media: seoImage ?? DocumentIcon,
-        title,
-      }
+    select: {title: 'title', slug: 'slug.current'},
+    prepare({title, slug}) {
+      return {title, subtitle: slug ? `/${slug}` : ''}
     },
   },
 })

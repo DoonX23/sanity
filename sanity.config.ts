@@ -11,6 +11,8 @@ import {media, mediaAssetSource} from 'sanity-plugin-media'
 import {customDocumentActions} from './plugins/customDocumentActions'
 import Navbar from './components/studio/Navbar'
 
+import {UpdateFullPathAction} from './actions/updateFullPathAction' // 注释掉
+
 const devOnlyPlugins = [visionTool()]
 
 export default defineConfig({
@@ -28,7 +30,14 @@ export default defineConfig({
     media(),
     ...(isDev ? devOnlyPlugins : []),
   ],
-
+  document: { // 注释掉整个 document 配置
+    actions: (prev, context) => {
+        if (context.schemaType === 'article') {
+          return [UpdateFullPathAction, ...prev]
+        }
+        return prev
+    },
+    },
   schema: {
     types: schemaTypes,
   },
