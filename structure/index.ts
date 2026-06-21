@@ -6,20 +6,7 @@ import pages from './pageStructure'
 import products from './productStructure'
 import settings from './settingStructure'
 
-/**
- * Structure overrides
- *
- * Sanity Studio automatically lists document types out of the box.
- * With this custom structure we achieve things like showing the `home`
- * and `settings` document types as singletons, and grouping product details
- * and variants for easy editorial access.
- *
- * You can customize this even further as your schema types progress.
- * To learn more about structure builder, visit our docs:
- * https://www.sanity.io/docs/overview-structure-builder
- */
-
-// If you add document types to structure manually, you can add them to this function to prevent duplicates in the root pane
+// 1. 在这里把 'article' 加进去，过滤掉它，防止它在底部再次出现
 const hiddenDocTypes = (listItem: ListItemBuilder) => {
   const id = listItem.getId()
 
@@ -28,6 +15,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
   }
 
   return ![
+    'article', // 👈 新增这一行
     'collection',
     'colorTheme',
     'home',
@@ -45,6 +33,10 @@ export const structure: StructureResolver = (S, context) =>
     .items([
       home(S, context),
       pages(S, context),
+      
+      // 2. 👈 将 article 放在你指定的任何位置，比如放在 pages 下面
+      S.documentTypeListItem('article').title('Article'),
+      
       S.divider(),
       collections(S, context),
       products(S, context),
@@ -53,5 +45,7 @@ export const structure: StructureResolver = (S, context) =>
       S.divider(),
       settings(S, context),
       S.divider(),
+      
+      // 没被 hiddenDocTypes 过滤掉的其他文档会默认显示在这里（也就是之前的 article 所在的位置）
       ...S.documentTypeListItems().filter(hiddenDocTypes),
     ])
