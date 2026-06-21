@@ -27,5 +27,18 @@ export const seoType = defineField({
       name: 'image',
       type: 'image',
     }),
+    defineField({
+      name: 'noIndex',
+      title: 'Hide from search engines',
+      description: 'If enabled, this page will not be indexed by search engines.',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'canonical',
+      title: 'Canonical URL',
+      description: 'Custom canonical URL if different from the normal page URL.',
+      type: 'url',
+    }),
   ],
 })
