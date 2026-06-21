@@ -1,0 +1,47 @@
+import { createClient } from '@sanity/client'
+
+const client = createClient({
+  projectId: 'nmemjmqq',
+  dataset: 'production',
+  apiVersion: '2024-01-01',
+  useCdn: false,
+  token: '去 Sanity 后台创建 API Token 点击 Add API token 权限选择 Editor',
+})
+
+const deleteVariants = async () => {
+  const typeName = 'productVariant'
+  const query = `*[_type == "${typeName}"][0...999]._id`
+  const ids = await client.fetch(query)
+
+  console.log(`找到 ${ids.length} 个产品变体文档`)
+
+  if (ids.length === 0) {
+    console.log(`没有更多产品变体需要删除`)
+    return
+  }
+
+  const transaction = client.transaction()
+
+  ids.forEach(id => {
+    transaction.delete(id)
+  })
+
+  await transaction.commit()
+  console.log(`成功删除 ${ids.length} 个产品变体文档`)
+
+  if (ids.length === 999) {
+    console.log(`继续删除剩余的产品变体...`)
+    await deleteVariants()
+  }
+}
+
+const main = async () => {
+  console.log('开始删除产品变体操作...')
+  await deleteVariants()
+  console.log('产品变体删除操作彻底完成！')
+}
+
+main().catch(err => {
+  console.error('删除过程中出错:', err)
+  process.exit(1)
+})
