@@ -17,7 +17,7 @@ import {media, mediaAssetSource} from 'sanity-plugin-media'
 import {customDocumentActions} from './plugins/customDocumentActions'
 import Navbar from './components/studio/Navbar'
 
-import {UpdateFullPathAction} from './actions/updateFullPathAction' // 注释掉
+
 import {CopyPagebuilderAction} from './actions/copyPagebuilderAction'
 
 const devOnlyPlugins = [visionTool()]
@@ -35,7 +35,7 @@ const sharedConfig = {
   document: { // 注释掉整个 document 配置
     actions: (prev: DocumentActionComponent[], context: DocumentActionsContext) => {
       if (context.schemaType === 'article') {
-        return [UpdateFullPathAction, CopyPagebuilderAction as DocumentActionComponent, ...prev]
+        return [CopyPagebuilderAction as DocumentActionComponent, ...prev]
       }
       if (context.schemaType === 'page') {
         return [CopyPagebuilderAction as DocumentActionComponent, ...prev]

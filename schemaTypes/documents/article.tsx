@@ -4,6 +4,7 @@ import {BookIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
 import {pagebuilderOf} from '../objects/pagebuilder'
 import {imageField} from '../objects/shared/fields'  // ← 添加这一行
+import { PathPreview } from '../../components/studio/PathPreview'
 
 export const articleType = defineType({
   name: 'article',
@@ -11,6 +12,14 @@ export const articleType = defineType({
   type: 'document',
   icon: BookIcon,
   fields: [
+    defineField({
+      name: 'pathPreview',
+      title: ' ', // 留空，不占用多余标签空间
+      type: 'string', // 类型是 string，但我们用自定义组件渲染它
+      components: {
+        field: PathPreview // 👈 挂载我们的 React 组件
+      }
+    }),
     defineField({
       name: 'title',
       title: 'Title',
@@ -36,30 +45,9 @@ export const articleType = defineType({
       to: [{type: 'article'}],
       description: '选择父级文章，如果没有则为顶级文章',
     }),
-    defineField({
-      name: 'fullPath',
-      title: 'Full Path',
-      type: 'string',
-      description: '完整路径，基于父级路径和当前slug自动生成',
-      readOnly: true,
-    }),
+
     imageField('image'),
-    defineField({
-      name: 'breadcrumb',
-      title: 'Breadcrumb',
-      type: 'array',
-      description: '面包屑导航数据，自动生成',
-      readOnly: true,
-      of: [
-        {
-          type: 'object',
-          fields: [
-            defineField({name: 'title', title: 'Title', type: 'string'}),
-            defineField({name: 'path', title: 'Path', type: 'string'}),
-          ],
-        },
-      ],
-    }),
+
     defineField({
       name: 'pagebuilder',
       title: 'Page Builder',
@@ -84,9 +72,9 @@ export const articleType = defineType({
     defineField({name: 'seo', title: 'SEO', type: 'seo'}),
   ],
   preview: {
-    select: {seoImage: 'seo.image', title: 'title', fullPath: 'fullPath'},
-    prepare({seoImage, title, fullPath}) {
-      return {media: seoImage, title, subtitle: fullPath}
+    select: {seoImage: 'seo.image', title: 'title'},
+    prepare({seoImage, title}) {
+      return {media: seoImage, title}
     },
   },
 })
