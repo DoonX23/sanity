@@ -2,6 +2,7 @@
 
 import {defineField, defineType} from 'sanity'
 import {listField} from '../shared/fields'
+import React from 'react' // <-- 新增：引入 React 用于渲染预览图片
 
 export const cardGridSection = defineType({
   name: 'cardGridSection',
@@ -11,9 +12,11 @@ export const cardGridSection = defineType({
   fields: [
     defineField({name: 'heading', title: 'Heading', type: 'string'}),
     defineField({name: 'subheading', title: 'Subheading', type: 'string'}),
+    
+    // --- 结构配置 ---
     defineField({
       name: 'cardLayout',
-      title: 'Card Layout',
+      title: 'Card Layout (卡片布局)',
       type: 'string',
       options: {
         list: [
@@ -25,11 +28,54 @@ export const cardGridSection = defineType({
     }),
     defineField({
       name: 'columns',
-      title: 'Columns',
+      title: 'Columns (列数)',
       type: 'number',
       validation: (Rule) => Rule.min(1).max(6),
       initialValue: 2,
     }),
+
+    // --- 视觉样式配置 (语义化) ---
+    defineField({
+      name: 'theme',
+      title: 'Section Theme (区块主题色)',
+      type: 'string',
+      options: {
+        list: [
+          {title: '浅色 (白底)', value: 'light'},
+          {title: '灰色 (灰底)', value: 'gray'},
+          {title: '深色 (黑底)', value: 'dark'},
+        ],
+      },
+      initialValue: 'gray',
+    }),
+    defineField({
+      name: 'cardStyle',
+      title: 'Card Style (卡片外观)',
+      type: 'string',
+      options: {
+        list: [
+          {title: '扁平 (无边框, 轻微灰底)', value: 'flat'},
+          {title: '阴影 (白底, 带阴影)', value: 'shadow'},
+          {title: '边框 (白底, 带边框)', value: 'bordered'},
+        ],
+      },
+      initialValue: 'flat',
+    }),
+    defineField({
+      name: 'imageAspect',
+      title: 'Image Aspect Ratio (图片比例)',
+      type: 'string',
+      options: {
+        list: [
+          {title: '4:3 (标准)', value: '4/3'},
+          {title: '16:9 (宽屏)', value: '16/9'},
+          {title: '1:1 (正方形)', value: '1/1'},
+        ],
+      },
+      initialValue: '4/3',
+    }),
+
+    // --- 卡片内容数据 ---
     defineField({
       name: 'cards',
       title: 'Cards',
@@ -58,39 +104,14 @@ export const cardGridSection = defineType({
             prepare({title, imageUrl}) {
               return {
                 title: title || 'Card without title',
-                media: imageUrl ? {url: imageUrl} : undefined,
+                // 修复：将普通对象改为 React 元素，Sanity 就能正确渲染预览图了
+                media: imageUrl 
+                  ? React.createElement('img', { src: imageUrl, style: { objectFit: 'cover' } }) 
+                  : undefined,
               }
             },
           },
         },
-      ],
-    }),
-    defineField({
-      name: 'sectionStyles',
-      title: 'Section Styles',
-      type: 'object',
-      description: '区块样式（Tailwind CSS）',
-      fields: [
-        defineField({name: 'section', title: 'Section Styles', type: 'string'}),
-        defineField({name: 'container', title: 'Container Styles', type: 'string'}),
-        defineField({name: 'headerWrapper', title: 'Header Wrapper Styles', type: 'string'}),
-        defineField({name: 'heading', title: 'Heading Styles', type: 'string'}),
-        defineField({name: 'subheading', title: 'Subheading Styles', type: 'string'}),
-      ],
-    }),
-    defineField({
-      name: 'cardStyles',
-      title: 'Card Styles',
-      type: 'object',
-      description: '卡片样式（Tailwind CSS）',
-      fields: [
-        defineField({name: 'title', title: 'Title Styles', type: 'string'}),
-        defineField({name: 'description', title: 'Description Styles', type: 'string'}),
-        defineField({name: 'readMore', title: 'Read More Styles', type: 'string'}),
-        defineField({name: 'card', title: 'Card Container Styles', type: 'string'}),
-        defineField({name: 'cardContent', title: 'Card Content Styles', type: 'string'}),
-        defineField({name: 'image', title: 'Image Styles', type: 'string'}),
-        defineField({name: 'imageAspect', title: 'Image Aspect Ratio', type: 'string'}),
       ],
     }),
   ],
@@ -99,7 +120,7 @@ export const cardGridSection = defineType({
     prepare({title, subtitle, layout}) {
       return {
         title: title || 'Card Grid Section',
-        subtitle: `${layout === 'imageTop' ? '上图下内容' : '左图右内容'} | ${subtitle || ''}`,
+        subtitle: `Card Grid Section | ${layout === 'imageTop' ? '上图下内容' : '左图右内容'}`,
       }
     },
   },
