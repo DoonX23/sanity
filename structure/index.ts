@@ -15,6 +15,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
   }
 
   return ![
+    'routeNode', // 👈 新增这一行
     'article', // 👈 新增这一行
     'collection',
     'colorTheme',
@@ -36,7 +37,7 @@ export const structure: StructureResolver = (S, context) =>
       
       // 2. 👈 将 article 放在你指定的任何位置，比如放在 pages 下面
       S.documentTypeListItem('article').title('Article'),
-      
+      S.documentTypeListItem('routeNode').title('Route Node'),
       S.divider(),
       collections(S, context),
       products(S, context),
