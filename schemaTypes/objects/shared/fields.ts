@@ -2,8 +2,7 @@
 
 import {defineField} from 'sanity'
 
-// 工厂函数：生成通用的 image 对象字段
-// 调用时传入 name，可选传入是否包含 altText
+// ---------- 旧字段：Shopify 图片链接，A（Hydrogen）项目依赖，禁止修改结构 ----------
 export function imageField(name: string, includeAltText = false) {
   return defineField({
     name,
@@ -20,8 +19,28 @@ export function imageField(name: string, includeAltText = false) {
   })
 }
 
-// 工厂函数：生成通用的 list 数组字段
-// 每个 list item 包含 text（文本）和 highlighted（是否高亮）
+// ---------- 新字段：Sanity 原生图片资源，仅供 B 项目纯 Sanity 驱动的组件使用 ----------
+// 调用时字段名统一带 sanity 前缀（如 sanityImage），与旧字段区分数据来源
+export function sanityImageField(name: string, title: string, isRequired = false) {
+  return defineField({
+    name,
+    title,
+    type: 'image',
+    options: {hotspot: true},
+    fields: [
+      defineField({
+        name: 'alt',
+        title: 'Alt Text',
+        type: 'string',
+        description: '图片替代文本，直接影响图片 SEO 与无障碍访问，必填',
+        validation: (rule) => rule.required(),
+      }),
+    ],
+    validation: isRequired ? (rule) => rule.required() : undefined,
+  })
+}
+
+// ---------- list 字段，无关，保留 ----------
 export function listField(name: string) {
   return defineField({
     name,

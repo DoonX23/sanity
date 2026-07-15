@@ -4,8 +4,8 @@ import {CubeIcon} from '@sanity/icons' // ← 图标改为更贴合"路径节点
 // import {BookIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
 import {pagebuilderOf} from '../objects/pagebuilder' // 需确保其 of 数组已含 productList/articleList/product/freeContent
-import {imageField} from '../objects/shared/fields'
 import {PathPreview} from '../../components/studio/PathPreview'
+import {sanityImageField} from '../objects/shared/fields'
 
 export const routeNodeType = defineType({
   name: 'routeNode', // ← 由 'article' 改为 'routeNode'
@@ -55,15 +55,22 @@ export const routeNodeType = defineType({
       description: '选择父级路径节点，留空即为根路由（/ 或顶级 slug）',
     }),
 
-    imageField('image'), // 保留，作为 productList/articleList 卡片渲染时的兜底封面图
-
+    // 替换为内部图片字段
+    sanityImageField('sanityImage', 'Image', true), 
+    defineField({
+      name: 'manualProduct',
+      title: 'Manual Product',
+      type: 'reference',
+      to: [{type: 'manualProduct'}],
+      description: '关联的手动产品',
+    }),
     defineField({
       name: 'pagebuilder',
       title: 'Page Builder',
       type: 'array',
       description:
         '页面主体内容。productList/articleList/product 为数据驱动占位 Block，freeContent 为可多次插入的自由富文本 Block',
-      of: pagebuilderOf,
+      of: [...pagebuilderOf],
     }),
     defineField({
       name: 'publishedAt',
