@@ -5,6 +5,7 @@ import home from './homeStructure'
 import pages from './pageStructure'
 import products from './productStructure'
 import settings from './settingStructure'
+import navbar from './navbarStructure'
 
 // 1. 在这里把 'article' 加进去，过滤掉它，防止它在底部再次出现
 const hiddenDocTypes = (listItem: ListItemBuilder) => {
@@ -25,6 +26,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
     'product',
     'productVariant',
     'settings',
+    'navbarSettings', // Film 项目专属导航单例
   ].includes(id)
 }
 
@@ -45,6 +47,7 @@ export const structure: StructureResolver = (S, context) =>
       colorThemes(S, context),
       S.divider(),
       settings(S, context),
+      navbar(S, context),
       S.divider(),
       
       // 没被 hiddenDocTypes 过滤掉的其他文档会默认显示在这里（也就是之前的 article 所在的位置）

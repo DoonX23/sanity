@@ -24,6 +24,13 @@ import {linkEmailType} from './objects/link/linkEmailType'
 import {linkExternalType} from './objects/link/linkExternalType'
 import {linkInternalType} from './objects/link/linkInternalType'
 import {linkProductType} from './objects/link/linkProductType'
+import {filmLinkInternalType} from './objects/link/filmLinkInternal'
+import {filmLinkExternalType} from './objects/link/filmLinkExternal'
+import {filmLinkType} from './objects/link/filmLink'
+import {navLinkItemType} from './objects/nav/navLinkItem'
+import {navLinkGroupType} from './objects/nav/navLinkGroup'
+import {navPromoCardType} from './objects/nav/navPromoCard'
+import {navItemType} from './objects/nav/navItem'
 import {menuLinksType} from './objects/global/menuLinksType'
 import {menuType} from './objects/global/menuType'
 import {notFoundPageType} from './objects/global/notFoundPageType'
@@ -85,6 +92,14 @@ const objects = [
   shopifyProductVariantType,
   shopType,
   spotType,
+  // Film 项目（project-b）导航相关
+  filmLinkInternalType,
+  filmLinkExternalType,
+  filmLinkType,
+  navLinkItemType,
+  navLinkGroupType,
+  navPromoCardType,
+  navItemType,
 ]
 
 import {portableTextType} from './portableText/portableTextType'
@@ -110,7 +125,8 @@ const documents = [collectionType, colorThemeType, pageType, productType, manual
 
 import {homeType} from './singletons/homeType'
 import {settingsType} from './singletons/settingsType'
+import {navbarSettingsType} from './singletons/navbarSettingsType'
 
-const singletons = [homeType, settingsType]
+const singletons = [homeType, settingsType, navbarSettingsType]
 
 export const schemaTypes = [...annotations, ...objects, ...singletons, ...blocks, ...documents]
