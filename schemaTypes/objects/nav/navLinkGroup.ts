@@ -52,6 +52,14 @@ export const navLinkGroupType = defineField({
       of: [{type: 'navLinkItem'}],
       validation: (Rule) => Rule.required().min(1),
     }),
+    defineField({
+      name: 'colSpan',
+      title: '跨列数 (Column Span)',
+      type: 'number',
+      description: '控制该分组在 Mega Menu 网格中占几列宽，不要超过所在 Mega Menu 的 Columns 设置',
+      initialValue: 1,
+      validation: (Rule) => Rule.min(1).max(4),
+    }),
   ],
   preview: {
     select: {title: 'title', style: 'style', count: 'items.length'},

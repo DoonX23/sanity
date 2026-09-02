@@ -43,6 +43,14 @@ export const navPromoCardType = defineField({
       },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'colSpan',
+      title: '跨列数 (Column Span)',
+      type: 'number',
+      description: '控制该卡片在 Mega Menu 网格中占几列宽，不要超过所在 Mega Menu 的 Columns 设置',
+      initialValue: 1,
+      validation: (Rule) => Rule.min(1).max(4),
+    }),
   ],
   preview: {
     select: {title: 'eyebrow', media: 'image', layout: 'layout'},
