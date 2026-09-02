@@ -109,7 +109,6 @@ const blocks = [portableTextType, portableTextSimpleType]
 
 import {collectionType} from './documents/collection'
 import {colorThemeType} from './documents/colorTheme'
-import {manualProductType} from './documents/manualProduct'
 import {pageType} from './documents/page'
 import {productType} from './documents/product'
 // import {productVariantType} from './documents/productVariant'
@@ -118,7 +117,7 @@ import {articleType} from './documents/article'
 import {routeNodeType} from './documents/routeNode'
 import {pagebuilderTypes} from './objects/pagebuilder'
 
-const documents = [collectionType, colorThemeType, pageType, productType, manualProductType, articleType, routeNodeType,
+const documents = [collectionType, colorThemeType, pageType, productType, articleType, routeNodeType,
   // pagebuilder 的所有 Section 类型（必须注册，否则 Sanity 无法识别）
   ...pagebuilderTypes,
 ]

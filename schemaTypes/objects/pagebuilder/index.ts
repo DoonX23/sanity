@@ -6,8 +6,6 @@ import {heroSection} from './heroSection'
 import {statsSection} from './statsSection'
 import {cardGridSection} from './cardGridSection'
 import {heroSplitBlock} from './heroSplitBlock'
-import {productBlock} from './productBlock'
-import {productListBlock} from './productListBlock'
 import {articleListBlock} from './articleListBlock'
 import {freeContent} from './freeContent'
 
@@ -19,8 +17,6 @@ export const pagebuilderTypes = [
   statsSection,
   cardGridSection,
   heroSplitBlock,
-  productBlock,
-  productListBlock,
   articleListBlock,
   freeContent,
 ]
@@ -34,8 +30,6 @@ pagebuilderOf = [
   {type: 'heroSection'},
   {type: 'statsSection'},
   {type: 'cardGridSection'},
-  {type: 'productBlock'},
-  {type: 'productListBlock'},
   {type: 'articleListBlock'},
   {type: 'freeContent'},
 ] as const
